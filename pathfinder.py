@@ -1,7 +1,7 @@
 import pixmap
 import math
 
-w, h = 100, 100
+w, h = 1000, 1000
 grid = [[0 for i in range(w)] for i in range(h)]
 
 def d(xi, yi, xj, yj):
@@ -11,7 +11,10 @@ def p(x, y, r=10):
     for j in range(w):
         for i in range(h):
             grid[i][j] = grid[i][j] + (lambda x: (r-x) if x <= r else 0)(d(x, y, i, j))
-p(50, 50, r=20)
-p(50, 39)
-grid = [(lambda x:[[int(i*2000)] * 3 for i in x])(i) for i in grid]
+
+ps = [(0, 0), (20, 20), (500, 500), (750, 750)]
+for i in range(len(ps)):
+    p(*ps[i], r=d(*ps[i] + ps[i-1])) if i > 1 else p(*ps[i])
+
+grid = [(lambda x:[[int(i*100)] * 3 for i in x])(i) for i in grid]
 pixmap.save(grid, 'visualization.ppm')
